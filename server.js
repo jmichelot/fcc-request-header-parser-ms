@@ -2,15 +2,14 @@
 
 var express = require('express');
 var app = express();
-
 var port = process.env.PORT || 3000;
 
 app.get('/', function (req, res) {
-  console.log(req.headers);
   var ip = req.headers.host;
   var language = req.headers['accept-language']; 
   var software = req.headers['user-agent'];
-  ip = ip.substr(0, ip.indexOf(":"));
+  ip = ip.substr(0, ip.indexOf(":")) || ip;
+  language = language.substr(0, language.indexOf(",")) || language;
   software = software.match( /\((.*?)\)/ )[1];
   res.json({'ipaddress': ip, 'language': language, 'software': software});
 });
